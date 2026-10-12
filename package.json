@@ -1,0 +1,12 @@
+{
+  "name": "pdf-tool",
+  "version": "0.1.0",
+  "description": "A browser-based PDF viewer and editor (v0.1: viewing)",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {},
+  "license": "MIT"
+}
