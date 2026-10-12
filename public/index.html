@@ -1,0 +1,116 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PDF 查看与编辑工具</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="toolbar">
+    <div class="brand">
+      <span class="logo">📄</span>
+      <span class="title">PDF 工具</span>
+      <span class="badge">v0.2</span>
+    </div>
+
+    <button id="btnThumbToggle" class="btn icon-btn thumb-toggle" title="显示/隐藏缩略图">
+      ▤ 缩略图
+    </button>
+
+    <div class="toolbar-group">
+      <button id="btnOpen" class="btn icon-btn" title="打开 PDF 文件">
+        <span class="ico">📂</span> 打开
+      </button>
+      <input type="file" id="fileInput" accept="application/pdf" multiple hidden />
+
+      <select id="fileSelect" title="选择已上传的 PDF" hidden>
+        <option value="">选择文件…</option>
+      </select>
+    </div>
+
+    <div class="toolbar-group center">
+      <button id="btnPrev" class="btn nav-btn" title="上一页" disabled>‹</button>
+      <span id="pageInfo" class="page-info">– / –</span> <select id="pageJump" title="跳转到页面"><option value="">页码</option></select>
+      <button id="btnNext" class="btn nav-btn" title="下一页" disabled>›</button>
+
+      <span class="divider"></span>
+
+      <button id="btnZoomOut" class="btn small" title="缩小">−</button>
+      <span id="zoomInfo" class="zoom-info">100%</span>
+      <button id="btnZoomIn" class="btn small" title="放大">+</button>
+      <button id="btnZoomFit" class="btn small" title="适应宽度">⤢</button>
+    </div>
+
+    <div class="toolbar-group right">
+      <button id="btnOrganize" class="btn icon-btn primary" title="组织页面：拖拽排序、增删、跨文件复制剪切" disabled>
+        <span class="ico">🗂</span> 组织页面
+      </button>
+      <button id="btnSave" class="btn icon-btn" title="保存当前文档（Ctrl+S）" disabled>
+        <span class="ico">💾</span> 保存
+      </button>
+      <button id="btnSaveAs" class="btn icon-btn" title="另存为…" disabled>
+        <span class="ico">📁</span> 另存为
+      </button>
+      <button id="btnExport" class="btn icon-btn" title="导出当前文档" disabled>
+        <span class="ico">⭳</span> 导出
+      </button>
+      <span id="status" class="status">未打开文件</span>
+    </div>
+  </header>
+
+  <nav id="tabBar" class="tab-bar"></nav>
+
+  <aside id="thumbPanel" class="thumb-panel">
+    <div class="panel-header">
+      <span>📄 页面缩略图</span>
+      <button id="thumbCollapse" class="btn small" title="收起侧栏">◀</button>
+    </div>
+    <div id="thumbList" class="thumb-list">
+      <div class="thumb-empty">暂无缩略图</div>
+    </div>
+  </aside>
+
+  <main id="viewerContainer">
+    <div id="viewer" class="pdf-viewer">
+      <div id="emptyState" class="empty-state">
+        <div class="empty-icon">📄</div>
+        <p>没有打开的文档</p>
+        <p class="hint">点击上方「打开」按钮，或从右侧列表选择一个 PDF 文件</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- ====== Organize (fullscreen) overlay ====== -->
+  <div id="organizeOverlay" class="organize-overlay hidden">
+    <div class="organize-header">
+      <div class="organize-title">
+        <span>🗂 组织页面</span>
+        <span id="organizeDoc" class="organize-doc"></span>
+      </div>
+      <div class="organize-tools">
+        <button id="orgSelectAll" class="btn small" title="全选">全选</button>
+        <button id="orgClearSel" class="btn small" title="取消选择">取消</button>
+        <span class="divider"></span>
+        <button id="orgCopy" class="btn small" title="复制所选页面到剪贴板">复制</button>
+        <button id="orgCut" class="btn small" title="剪切所选页面到剪贴板">剪切</button>
+        <button id="orgDelete" class="btn small danger" title="删除所选页面">删除</button>
+        <span class="divider"></span>
+        <button id="orgPasteEnd" class="btn small" title="将剪贴板页面粘贴到本文档末尾">粘贴到末尾</button>
+        <span class="divider"></span>
+        <button id="orgClose" class="btn small" title="关闭并保存到视图">✓ 完成</button>
+        <button id="orgExit" class="btn small danger" title="不保存退出">✕ 退出</button>
+      </div>
+      <div id="orgHint" class="organize-hint"></div>
+    </div>
+    <div id="orgTargets" class="org-targets"></div>
+    <div id="organizeGrid" class="organize-grid"></div>
+  </div>
+
+  <!-- pdf-lib (editing) -->
+  <script src="vendor/pdf-lib.min.js"></script>
+  <script src="vendor/pdf.min.js"></script>
+  <script src="vendor/pdf.worker.min.js"></script>
+  <script src="js/viewer2.js"></script>
+</body>
+</html>
